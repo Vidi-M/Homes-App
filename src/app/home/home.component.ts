@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject} from '@angular/core';
 import { HousingLocationComponent } from '../housing-location/housing-location.component';
 import { HousingLocation } from '../housinglocation';
-import { getHousingLocationList } from '../housingdata';
+import { HousingService } from '../housing.service';
 
 
 @Component({
@@ -26,7 +26,10 @@ import { getHousingLocationList } from '../housingdata';
 })
 
 export class HomeComponent {
-  readonly baseUrl = 'https://angular.dev/assets/images/tutorials/common';
+  housingLocationList: HousingLocation[] = [];
+  housingService: HousingService = inject(HousingService);
 
-  housingLocationList = getHousingLocationList(this.baseUrl);
+  constructor() {
+    this.housingLocationList = this.housingService.getAllHousingLocations();
+  }
 }
