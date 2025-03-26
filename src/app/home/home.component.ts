@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { HousingLocationComponent } from '../housing-location/housing-location.component';
 import { HousingLocation } from '../housinglocation';
+import { getHousingLocationList } from '../housingdata';
+
 
 @Component({
   selector: 'app-home',
@@ -14,7 +16,10 @@ import { HousingLocation } from '../housinglocation';
       </form>
     </section>
     <section class="results">
-      <app-housing-location [housingLocation]="housingLocation"></app-housing-location>
+      <app-housing-location 
+        *ngFor="let housingLocation of housingLocationList"
+        [housingLocation]="housingLocation">
+      </app-housing-location>
     </section>
   `,
   styleUrls: ['./home.component.css'],
@@ -23,14 +28,5 @@ import { HousingLocation } from '../housinglocation';
 export class HomeComponent {
   readonly baseUrl = 'https://angular.dev/assets/images/tutorials/common';
 
-  housingLocation: HousingLocation = {
-    id: 9999,
-    name: 'Test Home',
-    city: 'Test City',
-    state: 'ST',
-    photo: `${this.baseUrl}/example-house.jpg`,
-    availableUnits: 99,
-    wifi: true,
-    laundry: false
-  };
+  housingLocationList = getHousingLocationList(this.baseUrl);
 }
